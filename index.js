@@ -10,54 +10,37 @@ playerPlay = () => {
   let playerInput;
   do {
     playerInput = prompt("Please enter any one of these - Rock, Paper, Scissors");
-  }
-  while ((playerInput.toLowerCase() != "rock") && (playerInput.toLowerCase() != "paper") && (playerInput.toLowerCase() != "scissors"));
+  }while ((playerInput.toLowerCase() != "rock") && (playerInput.toLowerCase() != "paper") && (playerInput.toLowerCase() != "scissors"));
   return playerInput;
 }
 
 // Function to Decide the Winner between Player and Computer
 playRound = (playerSelection,computerSelection) => {
-  if (playerSelection.toLowerCase() == "rock") {
-    if (computerSelection == "rock") {
-      console.log(`Draw! You both chose "Rock"!`);
+  if ((playerSelection === 'rock' && computerSelection === 'scissors') || 
+      (playerSelection === 'scissors' && computerSelection === 'paper') || 
+      (playerSelection === 'rock' && computerSelection === 'paper')) {
+    console.log(`You win! ${playerSelection} beats ${computerSelection}!`);
+    return true;
+  } else if ((computerSelection == 'rock' && playerSelection == 'paper') || 
+             (computerSelection == 'scissors' && playerSelection == 'paper') || 
+             (computerSelection == 'rock' && playerSelection == 'scissors')) {
+    console.log(`You lose! ${computerSelection} beats ${playerSelection}!`);
+    return false
+  } else if(playerSelection === computerSelection) {
+      console.log(`Draw! You both chose ${playerSelection}!`);
       return;
-    }
-    else if (computerSelection == "paper") {
-      console.log(`You lose! "Paper" beats "Rock"!`);
-      return false;
-    }
-    else if (computerSelection == "scissors") {
-      console.log(`You win! "Scissors" beats "Rock"!`);
-      return true;
     }
   }
-  if (playerSelection.toLowerCase() == "paper") {
-    if (computerSelection == "paper") {
-      console.log(`Draw! You both chose "Paper"!`);
-      return;
-    }
-    else if (computerSelection == "rock") {
-      console.log(`You win! "Paper" beats "Rock"!`);
-      return true;
-    }
-    else if (computerSelection == "scissors") {
-      console.log(`You lose! "Scissors" beats "Paper"!`);
-      return false;
-    }
-  }
-  if (playerSelection.toLowerCase() == "scissors") {
-    if (computerSelection == "scissors") {
-      console.log(`Draw! You both chose "Scissors"!`);
-      return;
-    }
-    else if (computerSelection == "rock") {
-      console.log(`You lose! "Rock" beats "Scissors"!`);
-      return false;
-    }
-    else if (computerSelection == "paper") {
-      console.log(`You win! "Scissors" beats "Paper"!`);
-      return true;
-    }
+
+winnerReport = (playerWins, computerWins) => {
+  console.log("Player Wins : "+playerWins);
+  console.log("Computer Wins : "+computerWins);
+  if (playerWins > computerWins) {
+    console.log( "\nCongrats! You have beaten the computer!");
+  }else if (computerWins > playerWins) {
+    console.log( "\nBetter luck next time! Computer have beaten you!");
+  }else {
+    console.log("\nThe computer and you have drawn!")
   }
 }
 
@@ -65,44 +48,20 @@ playRound = (playerSelection,computerSelection) => {
 function game() {
   let playerWins = 0;
   let computerWins = 0;
-  let roundResult = false;
-
+  
   for (round = 1; round <= 5; round++) {
     let computerSelection = computerPlay();
     let playerSelection = playerPlay();
-    console.log("Round : "+round)
+    console.log("Round : "+round);
     roundResult = playRound(playerSelection,computerSelection) 
     if (roundResult === true) {
-      playerWins = playerWins + 1;
-    }
-    else if (roundResult === false) {
-      computerWins = computerWins +1;
+      playerWins++;
+    }else if (roundResult === false) {
+      computerWins++;
     }  
   }
-  console.log("\n*****")
-  console.log("SCORE");
-  console.log("*****");
-  console.log("Player Wins : "+playerWins);
-  console.log("Computer Wins : "+computerWins);
-  if (playerWins > computerWins) {
-    console.log( "\nCongrats! You have beaten the computer!");
-  }
-  else if (computerWins > playerWins) {
-    console.log( "\nBetter luck next time! Computer have beaten you!");
-  }
-  else {
-    console.log("\nThe computer and you have drawn!")
-  }
+  winnerReport(playerWins, computerWins);
 }
 
 game();
-
-
-
-
-
-
-
-
-
     
